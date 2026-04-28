@@ -17,17 +17,62 @@ export type BackgroundCard = {
   accent: string;
 };
 
+export type GoalMetric = {
+  value: string;
+  label: string;
+  description: string;
+};
+
+export type AudienceGroup = {
+  name: string;
+  description: string;
+  accent: string;
+};
+
+export type ProjectPhase = {
+  period: string;
+  title: string;
+  description: string;
+};
+
+export type BudgetUse = {
+  title: string;
+  description: string;
+};
+
 export type ServiceStep = {
   title: string;
   description: string;
 };
 
 export type TimelineItem = {
-  month: string;
+  id: string;
+  period: string;
   title: string;
+  summary: string;
+  status: string;
+  priority?: "highest" | "high" | "normal";
+  location?: string;
+  format?: string;
   tasks: string[];
-  place: string;
-  division: string;
+  tags: string[];
+  highlight: string;
+  scriptQuestions?: string[];
+  outreachPaths?: string[];
+};
+
+export type BoothTaskGroup = {
+  code: string;
+  title: string;
+  owner: string;
+  statuses: string[];
+  duties: string[];
+  priority?: "highest" | "active" | "normal";
+};
+
+export type BoothLoopPhase = {
+  phase: string;
+  tasks: string[];
 };
 
 export type IntakeStep = {
@@ -52,25 +97,34 @@ export type ActionItem = {
   description: string;
 };
 
+export type NextActionGroup = {
+  title: string;
+  accent: string;
+  items: string[];
+};
+
 export const navItems: NavItem[] = [
   { id: "hero", label: "首页" },
-  { id: "stats", label: "核心数字" },
   { id: "background", label: "项目背景" },
-  { id: "loop", label: "服务闭环" },
-  { id: "timeline", label: "年度节奏" },
-  { id: "intake", label: "入库流程" },
-  { id: "teams", label: "团队分工" },
-  { id: "actions", label: "会后行动" }
+  { id: "goals", label: "目标对象" },
+  { id: "budget", label: "经费周期" },
+  { id: "timeline", label: "工作安排" },
+  { id: "booth", label: "5月8日" },
+  { id: "next", label: "下一步" },
+  { id: "closing", label: "总结" }
 ];
 
 export const hero = {
   title: "髓缘大爱，生命接力",
-  subtitle: "造血干细胞捐献志愿服务项目",
-  positioning: "以医学专业力量为支撑、以朋辈教育为特色、以校地协同为保障的高校红十字志愿服务品牌平台。",
-  slogan: "让科学认知抵达更多青年，让生命希望奔赴更多患者。",
-  badge: "上海交通大学医学院浦东校区 × 浦东新区红十字会",
-  note: "专业科普先行，朋辈榜样引领，集中规范入库。",
-  briefing: "今天我们只讲清三件事：为什么做、怎么做、谁来做。"
+  subtitle: "上海交通大学医学院造血干细胞捐献志愿服务特色项目",
+  positioning:
+    "这是一个依托上海交通大学医学院青年志愿者服务体系，围绕造血干细胞捐献科普、入库动员、捐献者分享与志愿骨干培养开展的红十字志愿服务项目。",
+  slogan:
+    "以医学专业知识消除误解，以朋辈榜样传递温度，让更多青年理解捐献、认同捐献，并在需要时成为生命的接力者。",
+  badge: "上海交通大学医学院 × 红十字志愿服务",
+  note: "科普先行，动员有序，榜样带动，骨干接力。",
+  briefing: "先讲清项目是什么，再讲清为什么值得做。",
+  keywords: ["红十字志愿服务", "造血干细胞捐献", "专业科普", "入库动员", "朋辈分享", "医学生公益"]
 };
 
 export const stats: Stat[] = [
@@ -114,27 +168,137 @@ export const stats: Stat[] = [
 
 export const backgroundCards: BackgroundCard[] = [
   {
-    title: "认知误区需要被科学澄清",
-    short: "“伤元气”“很痛苦”等误解，会降低青年入库意愿。",
+    title: "生命救治需求",
+    short: "造血干细胞捐献关系到血液病患者的生命救治。",
     details:
-      "项目用权威医学解释和真实经历回应疑虑，帮助同学理解捐献流程、安全保障与生命价值。",
-    accent: "破除恐惧"
+      "对患者而言，一次成功配型和规范捐献，可能就是重新获得治疗机会的关键一步。",
+    accent: "生命接力"
   },
   {
-    title: "医学生具备天然专业优势",
-    short: "医学背景青年更能理解人体生理和医疗操作。",
+    title: "公众认知误区",
+    short: "不少人仍担心“伤身体”，也不了解采集流程、配型机制和捐献过程。",
     details:
-      "他们既是潜在高质量志愿者，也是面向校园、社区开展健康科普的可信赖传播者。",
-    accent: "专业表达"
+      "项目用专业科普和真实分享回应恐惧，让同学先理解，再作出自愿、理性的选择。",
+    accent: "降低误解"
   },
   {
-    title: "契合红十字主责主业",
-    short: "项目直接服务“三救三献”中的造血干细胞捐献。",
+    title: "医学生专业优势",
+    short: "医学生具备医学基础、公益意识和社会动员潜力。",
     details:
-      "围绕人道、博爱、奉献精神，探索“高校专业力量+红十字资源”的校地协同模式。",
-    accent: "生命守护"
+      "他们既能把知识讲准确，也更适合在校园中开展可信、温暖的入库动员。",
+    accent: "专业动员"
+  },
+  {
+    title: "校地协同价值",
+    short: "项目契合红十字会“人道、博爱、奉献”精神。",
+    details:
+      "通过医学院青年志愿服务力量与红十字工作协同，服务“三救三献”中的造血干细胞捐献工作。",
+    accent: "协同服务"
   }
 ];
+
+export const goalMetrics: GoalMetric[] = [
+  {
+    value: "不少于2场",
+    label: "集中入库活动",
+    description: "年度内组织集中入库活动，推动更多青年完成血样采集与入库登记。"
+  },
+  {
+    value: "不少于100人份",
+    label: "有效血样采集",
+    description: "把认知提升转化为可衡量的入库行动成果。"
+  },
+  {
+    value: "生命之光",
+    label: "系列讲座或分享活动",
+    description: "通过讲座与捐献者分享会，用真实经历增强认同感。"
+  },
+  {
+    value: "1套",
+    label: "优质科普材料",
+    description: "制作并传播宣传折页、海报、短视频等科普内容。"
+  },
+  {
+    value: "约30人",
+    label: "核心学生志愿者团队",
+    description: "培养具备专业科普和现场服务能力的志愿骨干。"
+  },
+  {
+    value: "可持续",
+    label: "校地协同志愿服务模式",
+    description: "形成校园动员、社区外展与红十字工作协同推进的服务机制。"
+  }
+];
+
+export const audienceGroups: AudienceGroup[] = [
+  {
+    name: "浦东校区学生及青年教职工",
+    description: "项目首先面向上海交通大学医学院浦东校区青年群体，推动校园内认知提升与入库转化。",
+    accent: "校内重点"
+  },
+  {
+    name: "部分高校师生",
+    description: "通过讲座、分享和外展科普，把医学专业表达带到更多青年群体中。",
+    accent: "高校辐射"
+  },
+  {
+    name: "社区居民",
+    description: "结合社区服务场景开展通俗科普，让造血干细胞捐献知识走出校园。",
+    accent: "社区外展"
+  },
+  {
+    name: "中小学生和暑托班学生",
+    description: "在暑期实践中开展生命教育和公益启蒙，形成更广泛的社会传播。",
+    accent: "暑期覆盖"
+  }
+];
+
+export const projectBudget = {
+  total: "6万元",
+  cycle: "2026年度内持续推进",
+  focus: "3月至11月",
+  summary:
+    "项目2026年度内持续推进，重点覆盖3月至11月。5月至6月初集中推进近期活动；7月至8月结合暑期实践外展；9月至11月继续宣传、入库、分享与总结评估。",
+  phases: [
+    {
+      period: "5月至6月初",
+      title: "近期核心阶段",
+      description: "集中推进近期核心活动，完成重点宣传、动员与现场组织。"
+    },
+    {
+      period: "7月至8月",
+      title: "暑期拓展阶段",
+      description: "结合暑期社会实践开展外展宣讲，扩大项目服务覆盖。"
+    },
+    {
+      period: "9月至11月",
+      title: "持续推进与总结阶段",
+      description: "继续推进新生宣传、第二场入库活动、分享会与总结评估。"
+    }
+  ] satisfies ProjectPhase[],
+  uses: [
+    {
+      title: "宣传物料",
+      description: "宣传折页、海报、易拉宝等线下传播材料。"
+    },
+    {
+      title: "互动用品",
+      description: "活动小奖品和现场互动用品，提升参与体验。"
+    },
+    {
+      title: "讲座培训",
+      description: "支持讲座、培训与专家指导等专业能力建设。"
+    },
+    {
+      title: "后勤保障",
+      description: "志愿者补贴、交通、饮水、资料打印等基础保障。"
+    },
+    {
+      title: "成果材料",
+      description: "项目宣传品、成果展示与总结材料制作。"
+    }
+  ] satisfies BudgetUse[]
+};
 
 export const serviceLoop: ServiceStep[] = [
   { title: "科普", description: "专家讲科学，材料讲清楚，先建立安全认知。" },
@@ -147,55 +311,287 @@ export const serviceLoop: ServiceStep[] = [
 
 export const timeline: TimelineItem[] = [
   {
-    month: "3月",
-    title: "项目启动与志愿者培训",
-    tasks: ["召开项目启动会，明确年度目标与分工", "完成科普折页、海报、易拉宝等物料初稿"],
-    place: "交大医学院 / 项目组全员、核心志愿者",
-    division: "团委老师统筹，宣传组负责物料设计，组织组负责招募与联络。"
+    id: "before-may-day",
+    period: "五一前",
+    title: "团队启动与分工",
+    summary: "启动阶段：先把人组织起来，再把任务拆下去。",
+    status: "启动打底",
+    priority: "normal",
+    format: "团队会议 + 破冰协作",
+    tasks: [
+      "召开团队会议，明确节奏和沟通机制。",
+      "拆分宣传、采购、现场执行、摄影摄像、后勤报销等分工。",
+      "设计5月8日摆摊宣传折页。",
+      "提前采购摆摊所需物资和小奖品。",
+      "完成团队破冰，可安排聚餐，人均50元以内可报销。",
+      "负责人在破冰和会议过程中观察成员能力，培养助手。",
+      "将红十字服务队新换届队长纳入团队。",
+      "及时向老师反馈进展与困难。"
+    ],
+    tags: ["组织启动", "任务拆解", "物资准备"],
+    highlight: "先把人组织起来，再把任务拆下去。"
   },
   {
-    month: "4月",
-    title: "“生命之光”科普讲座启动",
-    tasks: ["邀请专家开展大型科普讲座", "发布线上科普推送，进行线下海报预热"],
-    place: "医学院会议室 / 全院师生、区红会代表",
-    division: "活动组负责场地与接待，宣传组负责媒体推广，后勤组负责设备与印制。"
+    id: "may-8-booth",
+    period: "5月8日",
+    title: "世界红十字日线下摆摊",
+    summary: "当前最急迫节点：用互动摆摊完成第一轮集中触达。",
+    status: "当前优先级最高",
+    priority: "highest",
+    location: "西六一楼，食堂对面",
+    format: "线下小型摆摊宣传",
+    tasks: [
+      "设置知识竞答、抽奖、打卡、问答挑战等互动环节。",
+      "现场发放宣传折页和小奖品。",
+      "安排人员负责引导、问答、物资、摄影摄像和现场秩序。",
+      "记录现场互动、参与情况和典型问题。",
+      "活动结束后必须产出回顾推文。"
+    ],
+    tags: ["立即推进", "重点节点", "线下触达"],
+    highlight: "当前优先级最高：先把5月8日摆摊跑顺、跑热、跑出传播素材。"
   },
   {
-    month: "5月",
-    title: "世界红十字日主题宣传周",
-    tasks: ["设立咨询台，开展持续一周的流动宣传", "与区红会合作，完成首场集中血样采集入库"],
-    place: "医学院学生活动中心 / 核心志愿者、区红会工作人员",
-    division: "设置引导组、登记组、后勤保障组、应急组，保障现场秩序。"
+    id: "late-may-intake",
+    period: "5月中下旬",
+    title: "入库科普讲座与现场入库",
+    summary: "从科普理解走向入库行动，是近期关键转化节点。",
+    status: "重点转化节点",
+    priority: "high",
+    location: "场地待确认",
+    format: "科普讲座 + 现场入库登记",
+    tasks: [
+      "邀请红十字会老师开展造血干细胞入库科普讲座。",
+      "红十字会现场支持待确认",
+      "宣传组负责照片、视频拍摄。",
+      "后续剪辑短视频，用于二次传播。",
+      "吸纳入库同学成为项目成员或志愿骨干。",
+      "服务于培养30人左右专业骨干的项目目标。"
+    ],
+    tags: ["计划安排", "入库转化", "二次传播"],
+    highlight: "地点和合作细节保持“计划 / 待确认”表述，避免写成最终安排。"
   },
   {
-    month: "6月",
-    title: "捐献者分享与外展科普",
-    tasks: ["邀请1-2名成功捐献同学开展沙龙式分享", "组织小分队进入社区或兄弟高校宣传"],
-    place: "学生活动中心、合作单位 / 校内学生与外联对象",
-    division: "外联组负责对接，宣讲组负责外出科普，配套便携展板和折页。"
+    id: "roundtable",
+    period: "5月底或6月初",
+    title: "捐献者圆桌分享会",
+    summary: "用真实经历增强认同，把刚入库的同学带回交流现场。",
+    status: "认同强化",
+    priority: "normal",
+    location: "小会议室，30人以内",
+    format: "访谈节目式圆桌论坛",
+    tasks: [
+      "主要邀请刚参与入库的同学回来听讲。",
+      "避免单向讲座，采用访谈节目式圆桌。",
+      "嘉宾待联系",
+      "由负责人担任主持人，负责串场和提问。",
+      "沉淀访谈金句、现场照片和后续传播素材。"
+    ],
+    tags: ["圆桌论坛", "朋辈分享", "小规模深交流"],
+    highlight: "真实经历比单向宣讲更有感染力。",
+    scriptQuestions: [
+      "当初为什么决定捐献？",
+      "接到配型成功电话时的第一反应是什么？",
+      "家人最初是什么态度？",
+      "捐献过程中最暖心的事情是什么？",
+      "捐献后身体恢复情况如何？",
+      "如果再给学弟学妹一句建议，会说什么？"
+    ]
   },
   {
-    month: "9月",
-    title: "新生时段融合宣传",
-    tasks: ["在新生入学阶段开展造血干细胞捐献知识科普", "完成第二次项目核心志愿者能力提升培训"],
-    place: "校园内 / 新生、项目志愿者",
-    division: "培训组负责课程组织与能力提升，宣传组配合新生传播触达。"
+    id: "summer-outreach",
+    period: "7月至8月",
+    title: "暑期社会实践与志愿服务拓展",
+    summary: "把造血干细胞知识融入暑期实践，完成外展宣讲。",
+    status: "外展拓展",
+    priority: "normal",
+    format: "暑期实践 + 外展宣讲",
+    tasks: [
+      "组建暑期实践团队。",
+      "申报红十字或造血干细胞捐献相关暑期实践项目。",
+      "将造血干细胞知识宣讲融入已有暑期支教团队，如云南、安徽等方向。",
+      "对接公益暑托班资源，为中小学生开展科普宣讲。",
+      "通过暑期实践完成进社区、进学校宣讲的任务要求。"
+    ],
+    tags: ["暑期实践", "外展宣讲", "服务拓展"],
+    highlight: "把校园项目带到社区、学校和暑期实践场景中。",
+    outreachPaths: ["进高校", "进社区", "进暑托班", "进暑期支教团队"]
   },
   {
-    month: "10月",
-    title: "第二场集中入库与中期调研",
-    tasks: ["组织第二场集中血样采集入库活动", "举办第二、三期“生命之光”分享会", "开展认知提升效果问卷调研"],
-    place: "校园内 / 侧重前期未覆盖人群",
-    division: "沿用并优化5月流程，调研组负责问卷设计、回收与分析。"
-  },
-  {
-    month: "11月",
-    title: "总结表彰与成果报送",
-    tasks: ["召开项目总结表彰会", "整理案例、数据、媒体报道并形成报告", "开展可持续性规划研讨"],
-    place: "交大医学院 / 项目成员、捐献者代表、区红会与学院领导",
-    division: "总结组负责报告撰写，宣传组负责成果展示设计，全体成员协同收口。"
+    id: "autumn-summary",
+    period: "9月至11月",
+    title: "持续推进与总结",
+    summary: "按照延续、评估、总结、沉淀，把项目做成可持续品牌。",
+    status: "持续品牌化",
+    priority: "normal",
+    format: "新生宣传 + 第二场入库 + 总结评估",
+    tasks: [
+      "9月结合新生入学进行造血干细胞知识宣传。",
+      "开展项目核心志愿者能力提升培训。",
+      "10月推进第二场集中血样采集入库活动。",
+      "继续举办“生命之光”分享会。",
+      "开展问卷调研和成效评估。",
+      "11月进行项目总结、优秀志愿者表彰、成果汇编与可持续规划。"
+    ],
+    tags: ["延续", "评估", "总结", "沉淀"],
+    highlight: "项目不是一次性活动，而是可持续志愿服务品牌。"
   }
 ];
+
+export const may8Booth = {
+  title: "5月8日世界红十字日线下摆摊：当前最高优先级任务",
+  location: "西六一楼，食堂对面",
+  target: "用互动方式完成造血干细胞捐献科普、项目宣传、折页发放和现场执行练兵。",
+  labels: ["当前最高优先级", "立即推进", "重点节点"],
+  groups: [
+    {
+      code: "A",
+      title: "总协调组",
+      owner: "待确认",
+      statuses: ["最高优先级", "需全程跟进"],
+      priority: "highest",
+      duties: [
+        "统筹5月8日整体流程。",
+        "确认场地、时间、人员排班。",
+        "和老师保持沟通。",
+        "处理现场突发情况。",
+        "汇总问题并组织复盘。"
+      ]
+    },
+    {
+      code: "B",
+      title: "宣传设计组",
+      owner: "待确认",
+      statuses: ["五一前出初稿", "活动后产出推文"],
+      priority: "active",
+      duties: [
+        "完成宣传折页内容与排版。",
+        "设计活动海报或电子宣传图。",
+        "准备现场展示文案。",
+        "提前制作预热内容。",
+        "活动后完成推文初稿。"
+      ]
+    },
+    {
+      code: "C",
+      title: "物资采购组",
+      owner: "待确认",
+      statuses: ["提前采购", "票据留存"],
+      priority: "active",
+      duties: [
+        "采购小奖品、互动用品、饮用水、纸巾、笔、贴纸、抽奖道具等。",
+        "保留发票或报销凭证。",
+        "活动前一天完成物资清点。",
+        "当天负责搬运和补给。"
+      ]
+    },
+    {
+      code: "D",
+      title: "互动活动组",
+      owner: "待确认",
+      statuses: ["提升参与感", "防止冷场"],
+      priority: "active",
+      duties: [
+        "设计摆摊互动环节。",
+        "设计知识竞答、抽奖、打卡、误区判断等玩法。",
+        "准备题库和答案。",
+        "控制现场节奏，避免冷场。",
+        "提升同学参与感。"
+      ]
+    },
+    {
+      code: "E",
+      title: "现场执行组",
+      owner: "待确认",
+      statuses: ["活动当天执行", "记录反馈"],
+      priority: "normal",
+      duties: [
+        "负责布置摊位。",
+        "引导路过同学参与。",
+        "发放宣传折页。",
+        "介绍项目基本内容。",
+        "维护现场秩序。",
+        "记录人数和反馈。"
+      ]
+    },
+    {
+      code: "F",
+      title: "摄影摄像组",
+      owner: "待确认",
+      statuses: ["横竖版素材", "支撑推文短视频"],
+      priority: "normal",
+      duties: [
+        "拍摄布置、互动、成员工作和参与反馈。",
+        "同步拍摄横版和竖版素材。",
+        "保存推文和短视频素材。",
+        "活动后整理照片和视频。"
+      ]
+    },
+    {
+      code: "G",
+      title: "后勤与报销组",
+      owner: "待确认",
+      statuses: ["签到排班", "报销归档"],
+      priority: "normal",
+      duties: [
+        "协助搬运物资。",
+        "准备签到或排班表。",
+        "整理票据。",
+        "记录实际支出。",
+        "协助报销和材料归档。"
+      ]
+    }
+  ] satisfies BoothTaskGroup[],
+  loop: [
+    {
+      phase: "活动前",
+      tasks: ["分工确认", "折页定稿", "物资采购", "互动题库准备", "排班完成"]
+    },
+    {
+      phase: "活动中",
+      tasks: ["摆摊布置", "互动引导", "折页发放", "照片视频采集", "参与人数记录"]
+    },
+    {
+      phase: "活动后",
+      tasks: ["照片视频整理", "推文初稿", "活动复盘", "票据归档", "问题反馈老师"]
+    }
+  ] satisfies BoothLoopPhase[]
+};
+
+export const nextActionChecklist = [
+  "五一前完成团队会议、分工确认和破冰。",
+  "宣传折页和活动海报需尽快出初稿。",
+  "物资采购组需提前列清单并保留票据。",
+  "互动活动组需准备题库、抽奖和打卡流程。",
+  "5月8日活动后必须完成照片整理、推文回顾和复盘。",
+  "5月中下旬入库讲座和现场入库活动需提前对接红十字会老师与工作人员。",
+  "5月底或6月初捐献者圆桌分享会嘉宾待联系。"
+];
+
+export const nextActionGroups: NextActionGroup[] = [
+  {
+    title: "立即完成",
+    accent: "先把会后第一轮动作落下去",
+    items: ["团队会议", "分工确认", "折页初稿", "物资清单"]
+  },
+  {
+    title: "活动执行",
+    accent: "围绕5月8日摆摊现场跑顺",
+    items: ["5月8日摆摊", "互动环节", "摄影摄像", "现场记录"]
+  },
+  {
+    title: "后续衔接",
+    accent: "让摆摊成果接到入库和外展",
+    items: ["入库讲座", "圆桌分享会", "暑期实践", "项目复盘"]
+  }
+];
+
+export const closingSummary = {
+  title: "让医学知识成为生命希望",
+  lines: [
+    "从一次科普、一份折页、一场入库活动开始，我们希望把医学知识转化为生命希望，把青年热忱转化为真实行动。",
+    "“髓缘大爱，生命接力”不是一次单点活动，而是一条从认知、认同到行动的生命接力线。"
+  ]
+};
 
 export const intakeFlow: IntakeStep[] = [
   {

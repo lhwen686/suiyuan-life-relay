@@ -1,11 +1,11 @@
 import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowDown,
-  CalendarDays,
   CheckCircle2,
   Cross,
   HeartPulse,
   HelpCircle,
+  MessageCircleHeart,
   ShieldCheck,
   Sparkles,
   UsersRound,
@@ -14,30 +14,21 @@ import {
 import { hero } from "../data/project";
 import { scrollToSection } from "../utils/scrollToSection";
 
-type HeroProps = {
-  onVolunteerClick: () => void;
-  volunteerNotice: boolean;
-};
-
-export function Hero({ onVolunteerClick, volunteerNotice }: HeroProps) {
+export function Hero() {
   const shouldReduceMotion = useReducedMotion();
   const [headlineLead, headlineRest] = hero.title.split("，");
 
   const highlights = [
-    { title: "专业可信", text: "医学专家与医学生共同完成科学解读", Icon: ShieldCheck },
-    { title: "流程规范", text: "红十字资源协同保障集中入库现场", Icon: CalendarDays },
-    { title: "持续动员", text: "让成功故事回到下一轮青年动员", Icon: HeartPulse }
+    { title: "医学专业支撑", text: "用专业知识把流程和安全讲清楚", Icon: ShieldCheck },
+    { title: "朋辈榜样传递", text: "用真实分享降低距离感和恐惧感", Icon: MessageCircleHeart },
+    { title: "青年公益接力", text: "培养志愿骨干，持续服务入库动员", Icon: HeartPulse }
   ];
   const briefingItems = [
-    { title: "为什么做", text: "回应误区和临床需求", Icon: HelpCircle },
-    { title: "怎么做", text: "科普、动员、入库闭环", Icon: Workflow },
-    { title: "谁来做", text: "六个小组马上承接", Icon: UsersRound }
+    { title: "科普", text: "回应误解，讲清流程", Icon: HelpCircle },
+    { title: "动员", text: "理解认同，愿意入库", Icon: Workflow },
+    { title: "接力", text: "需要时奔赴患者", Icon: UsersRound }
   ];
-  const proofStats = [
-    { value: "5000+", label: "校内重点触达" },
-    { value: "100+", label: "年度入库目标" },
-    { value: "30人", label: "核心志愿队伍" }
-  ];
+  const keywordTags = hero.keywords;
 
   return (
     <section id="hero" className="relative isolate scroll-mt-24 overflow-hidden bg-[#fffaf8] text-marrow-950">
@@ -50,7 +41,7 @@ export function Hero({ onVolunteerClick, volunteerNotice }: HeroProps) {
         data-scroll-anchor
       >
         <motion.div
-          className="min-w-0 max-w-[calc(100vw-2.5rem)] lg:max-w-none"
+          className="min-w-0 w-full max-w-full overflow-hidden lg:max-w-none"
           initial={shouldReduceMotion ? false : { y: 18 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
@@ -69,18 +60,22 @@ export function Hero({ onVolunteerClick, volunteerNotice }: HeroProps) {
             {headlineRest ? "，" : ""}
             {headlineRest && <span className="block text-marrow-700">{headlineRest}</span>}
           </h1>
-          <p className="mt-5 text-xl font-bold text-marrow-700 sm:text-2xl">{hero.subtitle}</p>
-          <p className="mt-6 max-w-2xl break-all text-base leading-8 text-stone-700 sm:text-lg">{hero.positioning}</p>
-          <p className="mt-5 max-w-2xl break-all border-l-4 border-pulse-300 pl-5 text-lg font-bold leading-8 text-marrow-950 sm:text-xl">
+          <p className="mt-5 max-w-[20rem] break-all text-xl font-bold leading-8 text-marrow-700 sm:max-w-2xl sm:text-2xl sm:leading-9">
+            {hero.subtitle}
+          </p>
+          <p className="mt-6 max-w-[20rem] break-all text-base leading-8 text-stone-700 sm:max-w-2xl sm:text-lg">{hero.positioning}</p>
+          <p className="mt-5 max-w-[20rem] break-all border-l-4 border-pulse-300 pl-5 text-lg font-bold leading-8 text-marrow-950 sm:max-w-2xl sm:text-xl">
             {hero.slogan}
           </p>
 
-          <div className="mt-8 grid max-w-2xl grid-cols-3 divide-x divide-marrow-100 border-y border-marrow-100 bg-white/70 backdrop-blur">
-            {proofStats.map((stat) => (
-              <div key={stat.label} className="px-3 py-4 sm:px-5">
-                <p className="text-2xl font-black leading-none text-marrow-800 sm:text-3xl">{stat.value}</p>
-                <p className="mt-2 break-all text-xs font-semibold leading-5 text-stone-500 sm:text-sm">{stat.label}</p>
-              </div>
+          <div className="mt-8 flex w-full max-w-[20rem] flex-wrap gap-3 border-y border-marrow-100 bg-white/70 py-4 backdrop-blur sm:max-w-2xl">
+            {keywordTags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-marrow-100 bg-white px-4 py-2 text-sm font-bold text-marrow-800 shadow-sm"
+              >
+                {tag}
+              </span>
             ))}
           </div>
 
@@ -93,26 +88,21 @@ export function Hero({ onVolunteerClick, volunteerNotice }: HeroProps) {
               }}
               className="focus-ring inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-marrow-800 px-6 py-3 text-base font-bold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-marrow-900"
             >
-              查看年度节奏
+              查看工作安排
               <ArrowDown size={18} />
             </a>
             <button
               type="button"
-              onClick={onVolunteerClick}
+              onClick={() => scrollToSection("booth")}
               className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full border border-marrow-200 bg-white px-6 py-3 text-base font-bold text-marrow-800 transition hover:-translate-y-0.5 hover:border-marrow-300 hover:bg-marrow-50"
             >
-              志愿者分组意向填写
+              查看5月8日任务
             </button>
           </div>
-          {volunteerNotice && (
-            <p className="mt-4 max-w-xl rounded-xl border border-marrow-100 bg-white/85 px-4 py-3 text-sm leading-6 text-stone-600 shadow-sm">
-              占位入口已保留：后续由项目组开放正式渠道。本页面不收集身份证号、健康信息或入库报名信息。
-            </p>
-          )}
         </motion.div>
 
         <motion.div
-          className="relative mx-auto w-full max-w-xl lg:left-10 lg:justify-self-end xl:left-16"
+          className="relative mx-auto w-full max-w-full sm:max-w-xl lg:left-10 lg:justify-self-end xl:left-16"
           initial={shouldReduceMotion ? false : { y: 24, scale: 0.99 }}
           animate={{ y: 0, scale: 1 }}
           transition={{ duration: 0.75, delay: 0.12, ease: "easeOut" }}

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { ChevronDown, CircleHelp, GraduationCap, HeartHandshake } from "lucide-react";
+import { ChevronDown, CircleHelp, GraduationCap, HeartHandshake, HeartPulse } from "lucide-react";
 import { backgroundCards } from "../data/project";
 
-const icons = [CircleHelp, GraduationCap, HeartHandshake];
+const icons = [HeartPulse, CircleHelp, GraduationCap, HeartHandshake];
 
 export function MisconceptionCards() {
   const [openIndexes, setOpenIndexes] = useState<number[]>([]);
@@ -14,7 +14,7 @@ export function MisconceptionCards() {
   };
 
   return (
-    <div className="grid items-start gap-5 lg:grid-cols-3">
+    <div className="grid items-start gap-5 md:grid-cols-2 xl:grid-cols-4">
       {backgroundCards.map((card, index) => {
         const Icon = icons[index] ?? CircleHelp;
         const isOpen = openIndexes.includes(index);
@@ -55,6 +55,7 @@ export function MisconceptionCards() {
                 }`}
               />
             </button>
+            <p className="mt-4 text-base leading-7 text-stone-600">{card.short}</p>
             <div
               id={panelId}
               aria-hidden={!isOpen}
@@ -63,7 +64,6 @@ export function MisconceptionCards() {
               }`}
             >
               <div className="space-y-4">
-                <p className="text-base leading-7 text-stone-600">{card.short}</p>
                 <p className="rounded-2xl bg-marrow-50 p-4 text-sm leading-7 text-stone-700">{card.details}</p>
               </div>
             </div>

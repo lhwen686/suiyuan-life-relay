@@ -1,20 +1,17 @@
-import { useLayoutEffect, useState } from "react";
-import { ActionList } from "./components/ActionList";
+import { useLayoutEffect } from "react";
+import { BudgetCycle } from "./components/BudgetCycle";
+import { ClosingSummary } from "./components/ClosingSummary";
 import { Hero } from "./components/Hero";
-import { IntakeFlow } from "./components/IntakeFlow";
+import { May8BoothBoard } from "./components/May8BoothBoard";
 import { MisconceptionCards } from "./components/MisconceptionCards";
 import { Navbar } from "./components/Navbar";
+import { NextActions } from "./components/NextActions";
+import { ProjectGoalsAudience } from "./components/ProjectGoalsAudience";
 import { Section } from "./components/Section";
-import { ServiceLoop } from "./components/ServiceLoop";
-import { StatCard } from "./components/StatCard";
-import { TeamDashboard } from "./components/TeamDashboard";
 import { Timeline } from "./components/Timeline";
-import { stats } from "./data/project";
 import { scrollToSection } from "./utils/scrollToSection";
 
 function App() {
-  const [volunteerNotice, setVolunteerNotice] = useState(false);
-
   useLayoutEffect(() => {
     const hash = window.location.hash.replace("#", "");
 
@@ -76,95 +73,61 @@ function App() {
     <>
       <Navbar />
       <main>
-        <Hero onVolunteerClick={() => setVolunteerNotice(true)} volunteerNotice={volunteerNotice} />
-
-        <Section
-          id="stats"
-          eyebrow="核心数字"
-          title="用一组数字看见年度目标"
-          description="覆盖、动员、入库、宣传与队伍建设同步推进，让项目目标清楚可衡量。"
-        >
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-            {stats.map((stat, index) => (
-              <StatCard key={stat.label} stat={stat} index={index} />
-            ))}
-          </div>
-        </Section>
+        <Hero />
 
         <Section
           id="background"
-          eyebrow="项目背景"
-          title="项目背景：从误解到理解，从专业到行动"
-          description="项目聚焦公众认知误区、医学生专业优势与红十字主责主业契合，形成清晰的公益动员基础。"
+          eyebrow="背景意义"
+          title="项目背景与现实意义"
+          description="从患者救治需求、公众认知误区、医学生专业优势和校地协同价值四个角度，说明项目为什么值得做。"
         >
           <MisconceptionCards />
         </Section>
 
         <Section
-          id="loop"
-          eyebrow="服务闭环"
-          title="全链条志愿服务闭环"
-          description="不止做一次入库动员，而是把科普、动员、关怀与再传播串成可持续的项目机制。"
+          id="goals"
+          eyebrow="项目目标"
+          title="项目目标与服务对象"
+          description="用清晰目标推动行动转化，也明确项目从校园到社区的服务覆盖范围。"
         >
-          <ServiceLoop />
+          <ProjectGoalsAudience />
+        </Section>
+
+        <Section
+          id="budget"
+          eyebrow="经费周期"
+          title="项目经费与项目周期"
+          description="单独展示总预算、年度周期、重点阶段和经费用途方向，便于会议现场快速把握资源安排。"
+          className="bg-marrow-50/60"
+        >
+          <BudgetCycle />
         </Section>
 
         <Section
           id="timeline"
-          eyebrow="年度节奏"
-          title="2026年度时间轴"
-          description="围绕3月至11月的关键节点推进，重点任务可展开查看，便于会议现场快速同步。"
+          eyebrow="工作安排"
+          title="未来几个月工作安排"
+          description="从团队启动、5月8日摆摊，到入库活动、圆桌分享会和暑期外展，项目将按阶段推进。"
           className="bg-marrow-50/60"
         >
           <Timeline />
         </Section>
 
-        <Section
-          id="intake"
-          eyebrow="五月入库"
-          title="5月集中入库流程"
-          description="以“5·8世界红十字日”宣传周为核心场景，配合区红会完成规范、安全、清晰的现场流程。"
-        >
-          <IntakeFlow />
-        </Section>
-
-        <Section
-          id="teams"
-          eyebrow="团队分工"
-          title="团队分工仪表盘"
-          description="六个工作组各有侧重，共同支撑活动策划、科普表达、现场执行、外部协同与成果沉淀。"
-          className="bg-[#f7faf9]"
-        >
-          <TeamDashboard />
-        </Section>
-
-        <section id="actions" className="scroll-mt-20 bg-marrow-950 py-14 sm:py-16 lg:flex lg:min-h-screen lg:items-center">
-          <div className="section-shell" data-scroll-anchor>
-            <div className="mb-9 max-w-3xl text-white">
-              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-pulse-300">会后行动</p>
-              <h2 className="mt-3 text-3xl font-bold sm:text-4xl lg:text-5xl">会后行动清单</h2>
-              <p className="mt-4 text-base leading-8 text-white/70 sm:text-lg">
-                会后先锁定日程、物料、分组、红会对接和复盘模板，让项目从会议共识进入执行状态。
-              </p>
-            </div>
-            <ActionList />
-            <div className="mt-10 rounded-2xl border border-white/20 bg-white/10 p-5 text-white backdrop-blur sm:flex sm:items-center sm:justify-between sm:gap-6">
-              <div>
-                <h3 className="text-xl font-black">志愿者分组意向填写</h3>
-                <p className="mt-2 text-sm leading-6 text-white/70">
-                  占位入口已保留，正式填写渠道由项目组后续发布。本页面不保存、不提交任何个人敏感信息。
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setVolunteerNotice(true)}
-                className="focus-ring mt-5 inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 font-bold text-marrow-800 transition hover:bg-marrow-50 sm:mt-0 sm:w-auto"
-              >
-                后续开放
-              </button>
-            </div>
-          </div>
+        <section id="booth" className="scroll-mt-20 bg-marrow-950 py-14 sm:py-16 lg:min-h-screen lg:py-20">
+          <May8BoothBoard />
         </section>
+
+        <Section
+          id="next"
+          eyebrow="近期提醒"
+          title="下一步行动"
+          description="会议结束后，优先把人、物资、内容和现场流程四件事落实。"
+          className="bg-marrow-50/60"
+        >
+          <NextActions />
+        </Section>
+
+        <ClosingSummary />
       </main>
     </>
   );
